@@ -120,6 +120,7 @@ static long etx_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 */
 static int __init etx_driver_init(void)
 {
+
         /*Allocating Major number*/
         if((alloc_chrdev_region(&dev, 0, 1, "etx_Dev")) <0){
                 pr_err("Cannot allocate major number\n");
@@ -130,31 +131,31 @@ static int __init etx_driver_init(void)
         /*Creating cdev structure*/
         cdev_init(&etx_cdev,&fops);
  
-        /*Adding character device to the system*/
+        /*Adding character device to the system + *Creating struct class*/ 
         if((cdev_add(&etx_cdev,dev,1)) < 0){
             pr_err("Cannot add the device to the system\n");
-            goto r_class;
+            class_destroy(dev_class);
+	    return -1;
         }
  
         /*Creating struct class*/
         if(IS_ERR(dev_class = class_create(THIS_MODULE,"etx_class"))){
             pr_err("Cannot create the struct class\n");
-            goto r_class;
+            class_destroy(dev_class);
+            return -1;
+
         }
  
         /*Creating device*/
-        if(IS_ERR(device_create(dev_class,NULL,dev,NULL,"etx_device")))
+        if(IS_ERR(device_create(dev_class,NULL,dev,NULL,"etx_device"))){
             pr_err("Cannot create the Device 1\n");
-            goto r_device;
+            unregister_chrdev_region(dev,1);
+            return -1;
+
         }
         pr_info("Device Driver Insert...Done!!!\n");
         return 0;
  
-r_device:
-        class_destroy(dev_class);
-r_class:
-        unregister_chrdev_region(dev,1);
-        return -1;
 }
 
 /*
