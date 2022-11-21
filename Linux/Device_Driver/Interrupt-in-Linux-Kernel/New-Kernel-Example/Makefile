@@ -7,7 +7,7 @@ all:
 	make -C $(KDIR)  M=$(shell pwd) modules
 
 modules_install:
-        $(MAKE) -C $(KDIR) M=$(shell pwd) modules_install
+	$(MAKE) -C $(KDIR) M=$(shell pwd) modules_install
 
 
 clean:
