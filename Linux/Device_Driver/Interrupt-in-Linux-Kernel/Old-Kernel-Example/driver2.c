@@ -120,7 +120,7 @@ static ssize_t etx_read(struct file *filp,
                         char __user *buf, size_t len, loff_t *off)
 {
         pr_info("Read function\n");
-        asm("int $0x3B");  // Corresponding to irq 11
+        //asm("int $0x3B");  // Corresponding to irq 11
         return 0;
 }
 
