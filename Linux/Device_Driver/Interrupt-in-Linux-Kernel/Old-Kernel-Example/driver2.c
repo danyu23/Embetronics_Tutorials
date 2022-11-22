@@ -22,11 +22,14 @@
 #include <linux/err.h>
 
 // Interrupt Request number
-#define IRQ_NO 11
- 
-//Interrupt handler for IRQ 11. 
+#define IRQ_NO 1
+
+unsigned int count = 0;
+
+//Interrupt handler for IRQ 1 which is the keyboard. 
 static irqreturn_t irq_handler(int irq,void *dev_id) {
-  pr_info("Shared IRQ: Interrupt Occurred");
+  pr_info("Shared IRQ: Interrupt Occurred for the %d time\n", count);
+  ++count;
   return IRQ_HANDLED;
 }
  
