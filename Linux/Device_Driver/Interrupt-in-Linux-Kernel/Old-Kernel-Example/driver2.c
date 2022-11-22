@@ -28,7 +28,7 @@ unsigned int count = 0;
 
 //Interrupt handler for IRQ 1 which is the keyboard. 
 static irqreturn_t irq_handler(int irq,void *dev_id) {
-  pr_info("Shared IRQ: Interrupt Occurred for the %d time\n", count);
+  printk(KERN_INFO "Shared IRQ: Interrupt Occurred for the %d time\n", count);
   ++count;
   return IRQ_HANDLED;
 }
