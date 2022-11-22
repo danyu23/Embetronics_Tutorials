@@ -56,7 +56,7 @@ static struct file_operations fops =
  
 //Interrupt handler for IRQ 11. 
 static irqreturn_t irq_handler(int irq,void *dev_id) {
-    struct siginfo info;
+    struct kernel_siginfo info;
     pr_info("Shared IRQ: Interrupt Occurred");
     
     //Sending signal to app
